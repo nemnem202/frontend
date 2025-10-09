@@ -1,0 +1,17 @@
+.header_main_container,
+.header_button_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0.5rem;
+}
+
+.site_name {
+    font-size: 2rem;
+}
+
+.site_slogan {
+    font-size: 1rem;
+}
