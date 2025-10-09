@@ -39,7 +39,7 @@ export class ApiService {
     }
   };
 
-  static formatPath = (path: string): string => {
+  private static formatPath = (path: string): string => {
     if (path.startsWith("/")) return path;
     return "/" + path;
   };
