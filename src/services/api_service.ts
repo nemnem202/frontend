@@ -13,9 +13,14 @@ export class ApiService {
 
       const data = await response.json();
 
-      if (data.response) return data as Response;
+      if ("message" in data && "success" in data) {
+        return data as Response;
+      }
 
-      return { message: "Le contenu de la réponse est incohérent : " + data, success: false };
+      return {
+        message: "Le contenu de la réponse est incohérent : " + JSON.stringify(data),
+        success: false,
+      };
     } catch {
       return { message: "Une erreur innatendue est survenue", success: false };
     }
@@ -42,5 +47,15 @@ export class ApiService {
   private static formatPath = (path: string): string => {
     if (path.startsWith("/")) return path;
     return "/" + path;
+  };
+
+  static create_header = (headers: object): Headers => {
+    const headers_class = new Headers();
+
+    for (const [key, value] of Object.entries(headers)) {
+      headers_class.append(key, String(value));
+    }
+
+    return headers_class;
   };
 }
