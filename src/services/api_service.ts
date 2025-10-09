@@ -3,7 +3,7 @@ import { Response } from "@/types/general/response";
 export class ApiService {
   public static readonly api_url = import.meta.env.VITE_API_URL;
 
-  static post = async (body: object, headers: HeadersInit, path: string): Promise<Response> => {
+  static post = async (body: object, headers: Headers, path: string): Promise<Response> => {
     try {
       const response = await fetch(this.api_url + this.formatPath(path), {
         method: "post",
