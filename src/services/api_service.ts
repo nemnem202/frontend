@@ -11,6 +11,10 @@ export class ApiService {
         body: JSON.stringify(body),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+
       const data = await response.json();
 
       if ("message" in data && "success" in data) {
@@ -27,11 +31,17 @@ export class ApiService {
   };
 
   static get = async <R>(headers: Headers, path: string): Promise<R | Response> => {
+    console.log("trying to get ", path);
     try {
       const response = await fetch(this.api_url + this.formatPath(path), {
         method: "get",
         headers: headers,
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+
       const data = await response.json();
 
       if ("message" in data && "success" in data) {
