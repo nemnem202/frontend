@@ -1,19 +1,16 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarHeader,
-} from "@/core/components/ui/sidebar";
+import { AppSidebar } from "@/core/components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/core/components/ui/sidebar";
 import { ApiService } from "@/services/api_service";
 import { Product } from "@/types/tables/product";
-function Home() {
-  // const response = await ApiService.get<Product[]>(headers:Headers, path: string);
-
+function Home({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <div>Home page</div>
-    </>
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
   );
 }
 
