@@ -8,6 +8,7 @@ export class ApiService {
       const response = await fetch(this.api_url + this.formatPath(path), {
         method: "post",
         headers: headers,
+        credentials: "include",
         body: JSON.stringify(body),
       });
 
@@ -36,6 +37,7 @@ export class ApiService {
       const response = await fetch(this.api_url + this.formatPath(path), {
         method: "get",
         headers: headers,
+        credentials: "include",
       });
 
       if (!response.ok) {
