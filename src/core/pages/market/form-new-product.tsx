@@ -12,12 +12,12 @@ import { Textarea } from "@/core/components/ui/textarea";
 import { Button } from "@/core/components/ui/button";
 import { Card, CardContent } from "@/core/components/ui/card";
 
-export default function FromNewProduct() {
+export default function FormNewProduct() {
 
     return (
             <Card className="">
                 <CardContent>
-                    <form>
+                    <form action="http://localhost:3000/market/create-product" method="post" encType="multipart/form-data">
                         <FieldSet>
                             <FieldLegend>Article's name</FieldLegend>
                             <FieldGroup>
@@ -39,7 +39,7 @@ export default function FromNewProduct() {
                                 </Field>
                                 <Field>
                                     <FieldLabel htmlFor="name">Product' photos</FieldLabel>
-                                    <Input id="productPhotos" placeholder="" type="file" required />
+                                    <Input id="productPhotos" name="productImage" placeholder="" type="file" required />
                                 </Field>
                                 <FieldSeparator />
                                 <Field orientation="horizontal">
