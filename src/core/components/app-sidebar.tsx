@@ -12,15 +12,15 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const items = [
   {
-    title: "Featured Items",
+    title: "Featured Items",
     url: "#",
   },
   {
-    title: "Popular Items",
+    title: "Popular Items",
     url: "#",
   },
   {
-    title: "New Items",
+    title: "New Items",
     url: "#",
   },
 ];
@@ -31,7 +31,7 @@ const categories = [
     url: "#",
   },
   {
-    title: "Costumes",
+    title: "Discretion",
     url: "#",
   },
   {
@@ -43,7 +43,7 @@ const categories = [
     url: "#",
   },
   {
-    title: "Chemicals",
+    title: "Chemistry",
     url: "#",
   },
   {
@@ -58,16 +58,19 @@ export function AppSidebar() {
   return (
     <Sidebar
       variant="floating"
-      className="text-chart-1"
+      className="bg-sidebar-foreground w-sm"
       collapsible={isMobile ? "offcanvas" : "none"}
     >
-      <SidebarContent className="bg-chart-3">
-        <SidebarGroup>
+      <SidebarContent>
+        <SidebarGroup className="bg-chart-2">
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className="text-lg hover:bg-chart-1"
+                  >
                     <a href={item.url}>{item.title}</a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -75,15 +78,16 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-chart-1">
-            Categories
-          </SidebarGroupLabel>
+        <SidebarGroup className="bg-chart-2">
+          <SidebarGroupLabel className="text-xl">Categories</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {categories.map((category) => (
                 <SidebarMenuItem key={category.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    className="text-lg  hover:bg-chart-1"
+                  >
                     <a href={category.url}>{category.title}</a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
