@@ -13,7 +13,9 @@ export default function Router() {
       <BrowserRouter>
         <Routes>
           <Route path="/market/*" element={<MarketRouter />} />
+
           <Route path="/management/*" element={<ManagementRouter />} />
+
           <Route path="/" element={<RegisterOrLogin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

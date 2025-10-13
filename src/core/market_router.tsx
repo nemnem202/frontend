@@ -4,15 +4,23 @@ import Article from "./pages/market/article";
 import Header from "./components/partials/header";
 import NotFound from "./pages/not_found";
 import FromNewProduct from "./pages/market/form-new-product";
+import ProtectRouteBySession from "./middlewares/session_route";
 
 export default function MarketRouter() {
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/articles/:id" element={<Article />} />
-        <Route path="/articles/post-article" element={<FromNewProduct />} />
+        <Route element={<ProtectRouteBySession session_names={["user", "vendor"]} />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+        <Route element={<ProtectRouteBySession session_names={["user", "vendor"]} />}>
+          <Route path="/articles/:id" element={<Article />} />
+        </Route>
+
+        <Route element={<ProtectRouteBySession session_names={["vendor"]} />}>
+          <Route path="/articles/post-article" element={<FromNewProduct />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
