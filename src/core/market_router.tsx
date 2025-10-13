@@ -10,7 +10,7 @@ export default function MarketRouter() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home children />} />
         <Route path="/articles/:id" element={<Article />} />
         <Route path="/articles/post-article" element={<FromNewProduct />} />
         <Route path="*" element={<NotFound />} />
