@@ -18,24 +18,23 @@ import { useEffect, useState } from "react";
 import { successToastProps } from "@/config/display/toasterProps";
 import { Spinner } from "../components/ui/spinner";
 import { Response } from "@/types/general/response";
-import { useNavigate } from "react-router-dom";
+import { is_valid_session_name, SessionName } from "@/types/general/session_names";
+import { use_session } from "@/services/session_provider";
+import { use_auto_navigation } from "@/hooks/navigation";
 
 export default function RegisterOrLogin() {
-  const [authentified, setAuthentified] = useState<"user" | "admin" | null | undefined>(undefined);
-
+  const [authentified, setAuthentified] = useState<SessionName | null | undefined>(undefined);
+  const { clear_session, set_session } = use_session();
   const [global_message, setMessage] = useState<string | null>(null);
-
-  const nav = useNavigate();
+  const [newSession, setNewSession] = use_auto_navigation();
 
   const try_to_get_session = async () => {
     const response = await ApiService.get<Response>(new Headers(), "/account/session");
 
-    console.log(response);
-
     if (response.success === false && authentified !== null) return setAuthentified(null);
 
-    if (response.message === "admin" || response.message === "user") {
-      setAuthentified(response.message as "admin" | "user");
+    if (is_valid_session_name(response.message)) {
+      setAuthentified(response.message as SessionName);
     } else {
       console.error("une erreur est survenue");
       toast("une erreur est survenue", successToastProps);
@@ -47,32 +46,34 @@ export default function RegisterOrLogin() {
   }, []);
 
   useEffect(() => {
-    if (!authentified) return;
-    if (authentified === "admin") {
-      nav("/management/admin");
-    } else if (authentified === "user") {
-      nav("/market");
+    console.log("[AUTH] : ", authentified);
+    if (!authentified || !is_valid_session_name(authentified)) {
+      setNewSession(null);
+      clear_session();
+      return;
     }
+    set_session(authentified);
+    setNewSession(authentified);
   }, [authentified]);
 
   return authentified === null ? (
     <div className="register-page m-auto">
-      <Tabs defaultValue="register">
+      <Tabs defaultValue="login">
         <TabsList>
-          <TabsTrigger value="register" onClick={() => setMessage(null)}>
-            Register
-          </TabsTrigger>
           <TabsTrigger value="login" onClick={() => setMessage(null)}>
             Login
+          </TabsTrigger>
+          <TabsTrigger value="register" onClick={() => setMessage(null)}>
+            Register
           </TabsTrigger>
         </TabsList>
         <Card className="min-w-lg">
           <CardContent>
             <TabsContent value="register">
-              <Register setMessage={setMessage} />
+              <Register setMessage={setMessage} setAuthentified={setAuthentified} />
             </TabsContent>
             <TabsContent value="login">
-              <Login setMessage={setMessage} />
+              <Login setMessage={setMessage} setAuthentified={setAuthentified} />
             </TabsContent>
           </CardContent>
         </Card>
@@ -88,8 +89,10 @@ export default function RegisterOrLogin() {
 
 function Register({
   setMessage,
+  setAuthentified,
 }: {
   setMessage: React.Dispatch<React.SetStateAction<string | null>>;
+  setAuthentified: React.Dispatch<React.SetStateAction<SessionName | null | undefined>>;
 }) {
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -108,6 +111,9 @@ function Register({
     if (!response.success) {
       setMessage(response.message);
     } else {
+      if (is_valid_session_name(response.message)) {
+        setAuthentified(response.message as SessionName);
+      }
       toast(response.message.toLocaleUpperCase(), successToastProps);
       setMessage(null);
     }
@@ -128,7 +134,7 @@ function Register({
             </Field>
             <Field>
               <FieldLabel htmlFor="invite-key">Invite key</FieldLabel>
-              <Input id="invite-key" name="invite-key" type="password" value={"22"} required />
+              <Input id="invite-key" name="invite-key" type="password" required />
               <FieldDescription>The invite key a modo gave you</FieldDescription>
             </Field>
           </FieldGroup>
@@ -147,11 +153,11 @@ function Register({
 
 function Login({
   setMessage,
+  setAuthentified,
 }: {
   setMessage: React.Dispatch<React.SetStateAction<string | null>>;
+  setAuthentified: React.Dispatch<React.SetStateAction<SessionName | null | undefined>>;
 }) {
-  const nav = useNavigate();
-
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -164,12 +170,7 @@ function Login({
     if (!response.success) {
       setMessage(response.message);
     } else {
-      if (response.message.toLowerCase() === "admin") {
-        nav("/management/admin");
-      } else if (response.message.toLowerCase() === "user") {
-        nav("/market");
-      }
-
+      setAuthentified(response.message as SessionName);
       toast("CONNECTÉ", successToastProps);
       setMessage(null);
     }
