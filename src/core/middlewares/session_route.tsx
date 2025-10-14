@@ -15,7 +15,6 @@ export default function ProtectRouteBySession({ session_names }: { session_names
   if (session_names.includes(session)) {
     return <Outlet />;
   }
-  console.log(session_names, session, session_names.includes(session));
   toast("Route is unreachable from your session!", errorToastProps);
   return <Navigate to="/" replace />;
 }
