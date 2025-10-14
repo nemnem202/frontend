@@ -8,22 +8,102 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { useState } from "react";
+import { Form } from "react-router-dom";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+} from "./ui/field";
 
 interface OrderPanelProps {
   product: Product;
 }
 
 export const OrderPanel = (props: OrderPanelProps) => {
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
+
+  function DecreaseQuantity() {
+    if (selectedQuantity > 0) {
+      setSelectedQuantity(selectedQuantity - 1);
+    }
+  }
+
+  function IncreaseQuantity() {
+    setSelectedQuantity(selectedQuantity + 1);
+  }
+
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <p>${props.product.product_price}</p>
-        {!props.product.suspended && <p>Available</p>}
-        {props.product.suspended && <p className="suspended">Unavailable</p>}
-      </CardHeader>
-      <CardContent>
-        <Button>Order</Button>
-      </CardContent>
-    </Card>
+    <>
+      <Card className="w-xs h-auto">
+        <CardContent>
+          <form id={props.product.id.toString()}>
+            <FieldGroup>
+              <FieldSet>
+                <p className="text-lg">${props.product.product_price}</p>
+                {!props.product.suspended && <p>Available</p>}
+                {props.product.suspended && (
+                  <p className="suspended">Unavailable</p>
+                )}
+                <FieldGroup>
+                  <Field>
+                    <div className="flex flex-row gap-3 justify-content-between">
+                      <FieldLabel htmlFor="quantity">Quantity:</FieldLabel>
+                      <div className="flex flex-row gap-3">
+                        <Button
+                          id="quantityReduction"
+                          variant="outline"
+                          type="button"
+                          onClick={DecreaseQuantity}
+                        >
+                          -
+                        </Button>
+                        <Input
+                          inputMode="numeric"
+                          readOnly
+                          id="quantity"
+                          placeholder={selectedQuantity.toString()}
+                          required
+                          className="text-center w-20"
+                        />
+                        <Button
+                          id="quantityIncrease"
+                          variant="outline"
+                          type="button"
+                          onClick={IncreaseQuantity}
+                        >
+                          +
+                        </Button>
+                      </div>
+                    </div>
+                    <p>
+                      Total: $
+                      {(
+                        Math.floor(
+                          selectedQuantity * props.product.product_price * 100
+                        ) / 100
+                      ).toString()}
+                    </p>
+                  </Field>
+                </FieldGroup>
+              </FieldSet>
+              <Field
+                orientation="horizontal"
+                className="flex flex-col justify-content-center"
+              >
+                <Button variant="outline" type="submit" className="w-25">
+                  Order
+                </Button>
+              </Field>
+            </FieldGroup>
+          </form>
+        </CardContent>
+      </Card>
+    </>
   );
 };

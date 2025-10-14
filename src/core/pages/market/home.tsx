@@ -17,7 +17,7 @@ const mockProducts: Product[] = [
     number_of_reports: 3,
     available_quantity: 50,
     account_id: 101,
-    id: 1,
+    id: 0,
   },
   {
     product_name: "Absolute Ethanol",
@@ -30,7 +30,7 @@ const mockProducts: Product[] = [
     number_of_reports: 1,
     available_quantity: 200,
     account_id: 102,
-    id: 2,
+    id: 1,
   },
   {
     product_name: "Sodium Chloride (NaCl)",
@@ -43,7 +43,7 @@ const mockProducts: Product[] = [
     number_of_reports: 0,
     available_quantity: 0,
     account_id: 103,
-    id: 3,
+    id: 2,
   },
   {
     product_name: "Binocular Microscope",
@@ -56,7 +56,7 @@ const mockProducts: Product[] = [
     number_of_reports: 5,
     available_quantity: 15,
     account_id: 201,
-    id: 4,
+    id: 3,
   },
   {
     product_name: "Benchtop Centrifuge",
@@ -69,7 +69,7 @@ const mockProducts: Product[] = [
     number_of_reports: 2,
     available_quantity: 10,
     account_id: 202,
-    id: 5,
+    id: 4,
   },
   {
     product_name: "Glass Beaker (500ml)",
@@ -82,7 +82,7 @@ const mockProducts: Product[] = [
     number_of_reports: 0,
     available_quantity: 500,
     account_id: 203,
-    id: 6,
+    id: 5,
   },
   {
     product_name: "Sterile Syringes 5ml (Box of 100)",
@@ -95,7 +95,7 @@ const mockProducts: Product[] = [
     number_of_reports: 0,
     available_quantity: 300,
     account_id: 301,
-    id: 7,
+    id: 6,
   },
   {
     product_name: "Hypodermic Needles (25G) - Box",
@@ -108,7 +108,7 @@ const mockProducts: Product[] = [
     number_of_reports: 1,
     available_quantity: 150,
     account_id: 302,
-    id: 8,
+    id: 7,
   },
   {
     product_name: "Hydrogen Peroxide (H₂O₂) 30%",
@@ -121,7 +121,7 @@ const mockProducts: Product[] = [
     number_of_reports: 2,
     available_quantity: 80,
     account_id: 104,
-    id: 9,
+    id: 8,
   },
   {
     product_name: "Paracetamol Tablets 500mg (Box of 100)",
@@ -134,7 +134,7 @@ const mockProducts: Product[] = [
     number_of_reports: 0,
     available_quantity: 400,
     account_id: 303,
-    id: 10,
+    id: 9,
   },
   {
     product_name: "Ammonium Hydroxide Solution (NH₄OH)",
@@ -147,7 +147,7 @@ const mockProducts: Product[] = [
     number_of_reports: 1,
     available_quantity: 60,
     account_id: 105,
-    id: 11,
+    id: 10,
   },
   {
     product_name: "Latex Examination Gloves (Box of 100)",
@@ -160,7 +160,7 @@ const mockProducts: Product[] = [
     number_of_reports: 0,
     available_quantity: 1,
     account_id: 304,
-    id: 12,
+    id: 11,
   },
 ];
 

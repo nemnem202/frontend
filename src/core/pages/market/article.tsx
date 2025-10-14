@@ -178,10 +178,10 @@ export default function Article() {
   return (
     <div>
       {id && Number(id) && (
-        <>
+        <div className="flex flex-row flex-nowrap gap-5">
           <ProductCard product={mockProducts[Number(id)]}></ProductCard>
           <OrderPanel product={mockProducts[Number(id)]}></OrderPanel>
-        </>
+        </div>
       )}
     </div>
   );
