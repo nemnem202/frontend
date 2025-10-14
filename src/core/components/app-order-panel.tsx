@@ -38,11 +38,22 @@ export const OrderPanel = (props: OrderPanelProps) => {
     setSelectedQuantity(selectedQuantity + 1);
   }
 
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    const orderItem = {
+      productId: props.product.id,
+      quantity: selectedQuantity,
+    };
+
+    console.log("Add to cart:", orderItem);
+  }
+
   return (
     <>
       <Card className="w-xs h-auto">
         <CardContent>
-          <form id={props.product.id.toString()}>
+          <form id={props.product.id.toString()} onSubmit={handleSubmit}>
             <FieldGroup>
               <FieldSet>
                 <p className="text-lg">${props.product.product_price}</p>
@@ -97,7 +108,7 @@ export const OrderPanel = (props: OrderPanelProps) => {
                 className="flex flex-col justify-content-center"
               >
                 <Button variant="outline" type="submit" className="w-25">
-                  Order
+                  Add
                 </Button>
               </Field>
             </FieldGroup>
