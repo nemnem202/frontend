@@ -20,6 +20,7 @@ import {
   FieldSeparator,
   FieldSet,
 } from "./ui/field";
+import { ApiService } from "@/services/api_service";
 
 interface OrderPanelProps {
   product: Product;
@@ -40,13 +41,24 @@ export const OrderPanel = (props: OrderPanelProps) => {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const target = e.target as HTMLFormElement;
+    const formdata = new FormData(target);
+    const itemQuantity = formdata.get("quantity");
+    const itemId = target.id;
 
-    const orderItem = {
-      productId: props.product.id,
-      quantity: selectedQuantity,
-    };
+    const headers = ApiService.create_header({
+      "Content-Type": "application/json",
+    });
 
-    console.log("Add to cart:", orderItem);
+    ApiService.post({ itemId, itemQuantity }, headers, "/market/basket").then(
+      (response) => {
+        if (response.success) {
+          alert("Product added to the basket!");
+        } else {
+          alert("Error: " + response.message);
+        }
+      }
+    );
   }
 
   return (
@@ -78,8 +90,10 @@ export const OrderPanel = (props: OrderPanelProps) => {
                           inputMode="numeric"
                           readOnly
                           id="quantity"
-                          placeholder={selectedQuantity.toString()}
+                          defaultValue={selectedQuantity.toString()}
+                          value={selectedQuantity.toString()}
                           required
+                          name="quantity"
                           className="text-center w-20"
                         />
                         <Button
