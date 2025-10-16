@@ -30,7 +30,7 @@ function Home({ children }: { children: React.ReactNode }) {
       <main>
         <SidebarTrigger />
         {children}
-        <ProductCardList array={mockProducts} />
+        <ProductCardList array={products} />
       </main>
       <div></div>
     </SidebarProvider>
