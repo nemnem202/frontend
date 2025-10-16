@@ -4,6 +4,7 @@ import Article from "./pages/market/article";
 import Header from "./components/partials/header";
 import NotFound from "./pages/not_found";
 import FromNewProduct from "./pages/market/form-new-product";
+import Basket from "./pages/market/basket";
 
 export default function MarketRouter() {
   return (
@@ -13,6 +14,7 @@ export default function MarketRouter() {
         <Route path="/" element={<Home children />} />
         <Route path="/articles/:id" element={<Article />} />
         <Route path="/articles/post-article" element={<FromNewProduct />} />
+        <Route path="/basket" element={<Basket />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
