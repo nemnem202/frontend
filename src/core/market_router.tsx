@@ -4,9 +4,8 @@ import Article from "./pages/market/article";
 import Header from "./components/partials/header";
 import NotFound from "./pages/not_found";
 import FromNewProduct from "./pages/market/form-new-product";
-import Basket from "./pages/market/basket";
 import ProtectRouteBySession from "./middlewares/session_route";
-import RegisterOrLogin from "./pages/registerOrLogin";
+import Basket from "./pages/market/basket";
 
 export default function MarketRouter() {
   return (
@@ -16,8 +15,8 @@ export default function MarketRouter() {
         <Route element={<ProtectRouteBySession session_names={["user"]} />}>
           <Route path="/basket" element={<Basket />} />
         </Route>
-        <Route element={<ProtectRouteBySession session_names={["user", "vendor"]} />}>
-          <Route path="/" element={<RegisterOrLogin />} />
+        <Route element={<ProtectRouteBySession session_names={["user"]} />}>
+          <Route path="/" element={<Home children={<Basket />} />} />
         </Route>
         <Route element={<ProtectRouteBySession session_names={["user", "vendor"]} />}>
           <Route path="/articles/:id" element={<Article />} />

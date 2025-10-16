@@ -22,8 +22,7 @@ const mockProducts: Product[] = [
   {
     product_name: "Absolute Ethanol",
     suspended: false,
-    product_description:
-      "Ethyl alcohol with 99.9% purity. Used as solvent and disinfectant.",
+    product_description: "Ethyl alcohol with 99.9% purity. Used as solvent and disinfectant.",
     product_price: 22.5,
     product_image_path: "/PH_product_image.jpg",
     number_of_sells: 450,
@@ -61,8 +60,7 @@ const mockProducts: Product[] = [
   {
     product_name: "Benchtop Centrifuge",
     suspended: false,
-    product_description:
-      "Compact centrifuge with max speed of 5000 rpm. Capacity: 8 tubes.",
+    product_description: "Compact centrifuge with max speed of 5000 rpm. Capacity: 8 tubes.",
     product_price: 350.0,
     product_image_path: "/PH_product_image.jpg",
     number_of_sells: 70,
@@ -74,8 +72,7 @@ const mockProducts: Product[] = [
   {
     product_name: "Glass Beaker (500ml)",
     suspended: false,
-    product_description:
-      "Heat-resistant borosilicate glass, graduated with 5% precision.",
+    product_description: "Heat-resistant borosilicate glass, graduated with 5% precision.",
     product_price: 5.5,
     product_image_path: "/PH_product_image.jpg",
     number_of_sells: 2500,
@@ -87,8 +84,7 @@ const mockProducts: Product[] = [
   {
     product_name: "Sterile Syringes 5ml (Box of 100)",
     suspended: false,
-    product_description:
-      "Disposable 5ml syringes, individually wrapped and sterile. Medical use.",
+    product_description: "Disposable 5ml syringes, individually wrapped and sterile. Medical use.",
     product_price: 15.99,
     product_image_path: "/PH_product_image.jpg",
     number_of_sells: 1500,
@@ -100,8 +96,7 @@ const mockProducts: Product[] = [
   {
     product_name: "Hypodermic Needles (25G) - Box",
     suspended: false,
-    product_description:
-      "25G gauge needles (orange), 1 inch long. Sterile, single-use.",
+    product_description: "25G gauge needles (orange), 1 inch long. Sterile, single-use.",
     product_price: 12.0,
     product_image_path: "/PH_product_image.jpg",
     number_of_sells: 800,
@@ -164,7 +159,7 @@ const mockProducts: Product[] = [
   },
 ];
 
-function Home({ children }: { children: React.ReactNode }) {
+export default function Home({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -177,5 +172,3 @@ function Home({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
-
-export default Home;

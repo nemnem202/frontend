@@ -31,9 +31,13 @@ export default function RegisterOrLogin() {
   const try_to_get_session = async () => {
     const response = await ApiService.get<Response>(new Headers(), "/account/session");
 
-    if (response.success === false && authentified !== null) return setAuthentified(null);
+    if (response.success === false && authentified !== null) {
+      console.log("try to get session failed");
+      return setAuthentified(null);
+    }
 
     if (is_valid_session_name(response.message)) {
+      console.log(response.message + " is a valid session name");
       setAuthentified(response.message as SessionName);
     } else {
       console.error("une erreur est survenue");
@@ -48,6 +52,7 @@ export default function RegisterOrLogin() {
   useEffect(() => {
     console.log("[AUTH] : ", authentified);
     if (!authentified || !is_valid_session_name(authentified)) {
+      console.log("clear session");
       setNewSession(null);
       clear_session();
       return;
