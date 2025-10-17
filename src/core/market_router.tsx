@@ -15,7 +15,7 @@ export default function MarketRouter() {
         <Route element={<ProtectRouteBySession session_names={["user"]} />}>
           <Route path="/basket" element={<Basket />} />
         </Route>
-        <Route element={<ProtectRouteBySession session_names={["user"]} />}>
+        <Route element={<ProtectRouteBySession session_names={["user", "vendor"]} />}>
           <Route path="/" element={<Home />} />
         </Route>
         <Route element={<ProtectRouteBySession session_names={["user", "vendor"]} />}>
