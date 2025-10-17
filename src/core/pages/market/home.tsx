@@ -3,38 +3,51 @@ import { SidebarProvider, SidebarTrigger } from "@/core/components/ui/sidebar";
 import { ApiService } from "@/services/api_service";
 import { Product } from "@/types/tables/product";
 import "../../../stylesheets/pages/home.css";
-import { ProductCardList } from "@/core/components/app-product-card-list";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { errorToastProps } from "@/config/display/toasterProps";
+import { Spinner } from "@/core/components/ui/spinner";
+import ProductCard from "@/core/components/partials/product_card";
 
-function Home({ children }: { children: React.ReactNode }) {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  getProductList();
-
-  async function getProductList() {
-    const headers = ApiService.create_header({
-      "Content-Type": "application/json",
-    });
-    const response = await ApiService.get<Product[]>(headers, "/market");
-
-    if (!("message" in response)) {
-      setProducts(response);
-    } else {
-      toast(response.message);
-    }
-  }
+export function Home() {
   return (
     <SidebarProvider>
-      <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-        <ProductCardList array={products} />
-      </main>
-      <div></div>
+      {/* Conteneur flex sous le header */}
+      <div className="flex flex-row w-full h-full">
+        <AppSidebar />
+        <main className="flex-1 p-4">
+          <SidebarTrigger />
+          <HomeContent />
+        </main>
+      </div>
     </SidebarProvider>
   );
 }
 
-export default Home;
+export function HomeContent() {
+  const [productsList, setProductList] = useState<Product[] | null>(null);
+
+  const get_products = async () => {
+    const products = await ApiService.get<Product[]>(new Headers(), "/market");
+
+    if ("message" in products) {
+      return toast(products.message, errorToastProps);
+    } else {
+      return setProductList(products);
+    }
+  };
+
+  useEffect(() => {
+    get_products();
+  }, []);
+
+  return productsList ? (
+    <div className="flex flex-wrap gap-6 justify-center">
+      {productsList.map((p, index) => (
+        <ProductCard p={p} key={index} />
+      ))}
+    </div>
+  ) : (
+    <Spinner className="size-20" />
+  );
+}

@@ -92,7 +92,7 @@
   --chart-4: var(--color-destructive);
   --chart-5: var(--color-destructive);
 
-  --sidebar: var(--color-bg-light);
+  --sidebar: var(--background);
   --sidebar-foreground: var(--color-text);
   --sidebar-primary: var(--color-primary);
   --sidebar-primary-foreground: var(--color-primary-foreground);
@@ -143,4 +143,15 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+main {
+  height: auto;
+  min-height: 100%;
+}
+
+.sidebar {
+  position: relative !important;
+  height: auto !important;
+  top: 0 !important;
 }
