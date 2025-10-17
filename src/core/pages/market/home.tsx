@@ -36,3 +36,5 @@ function Home({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
+
+export default Home;
