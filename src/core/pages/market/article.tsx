@@ -12,8 +12,6 @@ export default function Article() {
   useEffect(() => {
     if (!id || !Number(id)) {
       nav("/not-found");
-    } else {
-      console.log(id, Number(id), "oeoe");
     }
   }, []);
 
@@ -34,8 +32,7 @@ export default function Article() {
     {
       product_name: "Absolute Ethanol",
       suspended: false,
-      product_description:
-        "Ethyl alcohol with 99.9% purity. Used as solvent and disinfectant.",
+      product_description: "Ethyl alcohol with 99.9% purity. Used as solvent and disinfectant.",
       product_price: 22.5,
       product_image_path: "/PH_product_image.jpg",
       number_of_sells: 450,
@@ -73,8 +70,7 @@ export default function Article() {
     {
       product_name: "Benchtop Centrifuge",
       suspended: false,
-      product_description:
-        "Compact centrifuge with max speed of 5000 rpm. Capacity: 8 tubes.",
+      product_description: "Compact centrifuge with max speed of 5000 rpm. Capacity: 8 tubes.",
       product_price: 350.0,
       product_image_path: "/PH_product_image.jpg",
       number_of_sells: 70,
@@ -86,8 +82,7 @@ export default function Article() {
     {
       product_name: "Glass Beaker (500ml)",
       suspended: false,
-      product_description:
-        "Heat-resistant borosilicate glass, graduated with 5% precision.",
+      product_description: "Heat-resistant borosilicate glass, graduated with 5% precision.",
       product_price: 5.5,
       product_image_path: "/PH_product_image.jpg",
       number_of_sells: 2500,
@@ -112,8 +107,7 @@ export default function Article() {
     {
       product_name: "Hypodermic Needles (25G) - Box",
       suspended: false,
-      product_description:
-        "25G gauge needles (orange), 1 inch long. Sterile, single-use.",
+      product_description: "25G gauge needles (orange), 1 inch long. Sterile, single-use.",
       product_price: 12.0,
       product_image_path: "/PH_product_image.jpg",
       number_of_sells: 800,
