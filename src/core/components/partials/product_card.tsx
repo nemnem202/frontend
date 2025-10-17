@@ -11,6 +11,7 @@ import { Button } from "@/core/components/ui/button";
 import { Badge } from "@/core/components/ui/badge";
 import { ShoppingCart } from "lucide-react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { addToBasket } from "@/lib/addtobasket";
 
 export default function ProductCard({ p }: { p: Product }) {
   const image_url =
@@ -55,7 +56,7 @@ export default function ProductCard({ p }: { p: Product }) {
           disabled={p.suspended || p.available_quantity <= 0}
           onClick={(e) => {
             e.stopPropagation();
-            console.log("oeoe");
+            addToBasket(p.id, 1);
           }}
         >
           <ShoppingCart className="h-4 w-4" />
