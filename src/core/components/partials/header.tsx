@@ -1,16 +1,9 @@
 import { IoSearch } from "react-icons/io5";
 import { Link } from "react-router";
 import { Button } from "../ui/button";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "../ui/input-group";
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "../ui/input-group";
 import "../../../stylesheets/components/partials/header.css";
-import {
-  ButtonGroup,
-} from "../ui/button-group";
+import { ButtonGroup } from "../ui/button-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,7 +47,7 @@ export default function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link key="basket" to={"/"}>
+                  <Link key="basket" to={"/market/basket"}>
                     Basket
                   </Link>
                 </DropdownMenuItem>
@@ -62,14 +55,14 @@ export default function Header() {
             </DropdownMenu>
           </ButtonGroup>
         ) : (
-        <div className="header_button_container">
-          <Link key="account" to={"/"}>
+          <div className="header_button_container">
+            <Link key="account" to={"/"}>
               <Button variant="outline">My account</Button>
-          </Link>
-          <Link key="basket" to={"/"}>
+            </Link>
+            <Link key="basket" to={"/market/basket"}>
               <Button variant="outline">Basket</Button>
-          </Link>
-        </div>
+            </Link>
+          </div>
         )}
       </div>
     </>
