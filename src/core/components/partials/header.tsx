@@ -7,16 +7,17 @@ import { ButtonGroup } from "../ui/button-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { useIsMobile } from "../../../hooks/use-mobile"; // <-- Ajout de l'import
 import DisconnectButton from "./disconnect_button";
+import { use_session } from "@/services/session_provider";
 
 export default function Header() {
   const isMobile = useIsMobile(); // <-- Utilisation du hook
+
+  const { session } = use_session();
 
   return (
     <>
@@ -48,12 +49,20 @@ export default function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <DisconnectButton />
-                </DropdownMenuItem>
-                <DropdownMenuItem>
                   <Link key="basket" to={"/market/basket"}>
                     Basket
                   </Link>
+                </DropdownMenuItem>
+
+                {session === "vendor" && (
+                  <DropdownMenuItem>
+                    <Link key="vendor" to={"/upload"}>
+                      Upload
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem>
+                  <DisconnectButton />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -63,10 +72,16 @@ export default function Header() {
             <Link key="account" to={"/"}>
               <Button variant="outline">My account</Button>
             </Link>
-            <DisconnectButton />
+
             <Link key="basket" to={"/market/basket"}>
               <Button variant="outline">Basket</Button>
             </Link>
+            {session === "vendor" && (
+              <Link key="vendor" to={"/upload"}>
+                <Button variant="outline">Upload</Button>
+              </Link>
+            )}
+            <DisconnectButton />
           </div>
         )}
       </div>
