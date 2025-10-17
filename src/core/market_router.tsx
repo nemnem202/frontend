@@ -12,15 +12,22 @@ export default function MarketRouter() {
     <>
       <Header />
       <Routes>
-        <Route element={<ProtectRouteBySession session_names={["user"]} />}>
-          <Route path="/basket" element={<Basket />} />
-        </Route>
-        <Route element={<ProtectRouteBySession session_names={["user"]} />}>
-          <Route path="/" element={<Home />} />
-        </Route>
-        <Route element={<ProtectRouteBySession session_names={["user", "vendor"]} />}>
-          <Route path="/articles/:id" element={<Article />} />
-        </Route>
+        {/* <Route element={<ProtectRouteBySession session_names={["user"]} />}> */}
+        <Route path="/basket" element={<Basket />} />
+        {/* </Route> */}
+        {/* <Route element={<ProtectRouteBySession session_names={["user"]} />}> */}
+        <Route path="/" element={<Home />} />
+        {/* </Route> */}
+        {/* <Route
+          element={<ProtectRouteBySession session_names={["user", "vendor"]} />}
+        > */}
+        <Route path="/articles/:id" element={<Article />} />
+        {/* </Route> */}
+        {/* <Route
+          element={<ProtectRouteBySession session_names={["user", "vendor"]} />}
+        > */}
+        <Route path="/category/:category" element={<Home />} />
+        {/* </Route> */}
 
         <Route element={<ProtectRouteBySession session_names={["vendor"]} />}>
           <Route path="/articles/post-article" element={<FromNewProduct />} />

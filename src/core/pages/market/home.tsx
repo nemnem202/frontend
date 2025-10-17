@@ -10,21 +10,6 @@ import { Spinner } from "@/core/components/ui/spinner";
 import ProductCard from "@/core/components/partials/product_card";
 
 export function Home() {
-  return (
-    <SidebarProvider>
-      {/* Conteneur flex sous le header */}
-      <div className="flex flex-row w-full h-full">
-        <AppSidebar />
-        <main className="flex-1 p-4">
-          <SidebarTrigger />
-          <HomeContent />
-        </main>
-      </div>
-    </SidebarProvider>
-  );
-}
-
-export function HomeContent() {
   const [productsList, setProductList] = useState<Product[] | null>(null);
 
   const get_products = async () => {
@@ -40,6 +25,26 @@ export function HomeContent() {
   useEffect(() => {
     get_products();
   }, []);
+
+  return (
+    <SidebarProvider>
+      {/* Conteneur flex sous le header */}
+      <div className="flex flex-row w-full h-full">
+        <AppSidebar setProductList={setProductList}/>
+        <main className="flex-1 p-4">
+          <SidebarTrigger />
+          <HomeContent productsList={productsList} />
+        </main>
+      </div>
+    </SidebarProvider>
+  );
+}
+
+ function HomeContent({
+  productsList,
+}: {
+  productsList: Product[] | null;
+}) {
 
   return productsList ? (
     <div className="flex flex-wrap gap-6 justify-center">
