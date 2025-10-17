@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { useIsMobile } from "../../../hooks/use-mobile"; // <-- Ajout de l'import
+import DisconnectButton from "./disconnect_button";
 
 export default function Header() {
   const isMobile = useIsMobile(); // <-- Utilisation du hook
@@ -47,6 +48,9 @@ export default function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
+                  <DisconnectButton />
+                </DropdownMenuItem>
+                <DropdownMenuItem>
                   <Link key="basket" to={"/market/basket"}>
                     Basket
                   </Link>
@@ -59,6 +63,7 @@ export default function Header() {
             <Link key="account" to={"/"}>
               <Button variant="outline">My account</Button>
             </Link>
+            <DisconnectButton />
             <Link key="basket" to={"/market/basket"}>
               <Button variant="outline">Basket</Button>
             </Link>

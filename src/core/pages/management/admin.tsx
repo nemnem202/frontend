@@ -10,30 +10,21 @@ import {
   FieldSet,
 } from "@/core/components/ui/field";
 import { Input } from "@/core/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/core/components/ui/table";
+
 import { ApiService } from "@/services/api_service";
 import { Account } from "@/types/tables/accounts";
 import { toast } from "sonner";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@radix-ui/react-accordion";
+
 import { useEffect, useState } from "react";
 import { Response } from "@/types/general/response";
+import DisconnectButton from "@/core/components/partials/disconnect_button";
+import ManageAccount from "@/core/components/partials/manage_accounts";
 
 export default function Admin() {
   const [user_accounts, set_user_accounts] = useState<Account[]>([]);
   const [vendor_accounts, set_vendor_accounts] = useState<Account[]>([]);
   const [modo_accounts, set_modo_accounts] = useState<Account[]>([]);
+  const [modo_message, set_modo_message] = useState<string | null>(null);
 
   const get_users = async () => {
     const result = (await ApiService.get<{
@@ -103,26 +94,27 @@ export default function Admin() {
   }, []);
 
   return (
-    <div className="admin-page">
-      <RegisterModoAccount setMessage={() => {}} />
-      <Card>
-        <CardHeader>
-          <CardTitle>Manage accounts</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ManageAccount title="modos" accounts={modo_accounts} get_all={get_all} />
-          <ManageAccount title="users" accounts={user_accounts} get_all={get_all} />
-          <ManageAccount title="vendors" accounts={vendor_accounts} get_all={get_all} />
-        </CardContent>
-      </Card>
+    <div className="min-h-screen p-6 flex flex-col items-center gap-8">
+      <div className="w-full max-w-6xl flex justify-between">
+        <h1>Admin page</h1>
+        <DisconnectButton />
+      </div>
+      <RegisterModoAccount setMessage={set_modo_message} message={modo_message} />
+      <div className="w-full max-w-6xl flex_col md:grid-cols-3 gap-6">
+        <ManageAccount title="Modos" accounts={modo_accounts} get_all={get_all} />
+        <ManageAccount title="Vendors" accounts={vendor_accounts} get_all={get_all} />
+        <ManageAccount title="Users" accounts={user_accounts} get_all={get_all} />
+      </div>
     </div>
   );
 }
 
 function RegisterModoAccount({
   setMessage,
+  message,
 }: {
   setMessage: React.Dispatch<React.SetStateAction<string | null>>;
+  message: string | null;
 }) {
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -130,14 +122,13 @@ function RegisterModoAccount({
     const formData = new FormData(form);
     const username = formData.get("username");
     const password = formData.get("password");
+
     const headers = ApiService.create_header({ "Content-type": "application/json" });
     const response = await ApiService.post(
       { username, password },
       headers,
       "/account/register/modo"
     );
-
-    console.log(response.message);
 
     if (!response.success) {
       setMessage(response.message);
@@ -146,105 +137,16 @@ function RegisterModoAccount({
       setMessage(null);
     }
   };
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Create a modo account</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={(e) => register(e)}>
-          <FieldGroup>
-            <FieldSet>
-              <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="username">User-name</FieldLabel>
-                  <Input id="username" name="username" placeholder="Evil Rabbit" required />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <Input id="password" name="password" type="password" required />
-                </Field>
-              </FieldGroup>
-            </FieldSet>
-            <FieldSeparator />
-            <Field orientation="horizontal">
-              <Button type="submit">Submit</Button>
-            </Field>
-          </FieldGroup>
-        </form>
-      </CardContent>
-    </Card>
-  );
-}
-
-function ManageAccount({
-  accounts,
-  title,
-  get_all,
-}: {
-  accounts: Account[];
-  title: string;
-  get_all: () => void;
-}) {
-  const changeStatus = async (account_id: number, suspended: boolean) => {
-    try {
-      const headers = ApiService.create_header({ "Content-type": "application/json" });
-      const response = await ApiService.post(
-        { suspended: suspended },
-        headers,
-        "/account/suspend/" + account_id
-      );
-
-      toast(response.message, response.success ? successToastProps : errorToastProps);
-      get_all();
-    } catch (err) {
-      toast("an error occurred", errorToastProps);
-    }
-  };
 
   return (
-    <Accordion type="single" collapsible>
-      <AccordionItem value="item-1">
-        <AccordionTrigger>
-          <Button>{title}</Button>
-        </AccordionTrigger>
-        <AccordionContent>
-          <Table className="w-[700px]">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[300px]">Username</TableHead>
-                <TableHead>Number of reports</TableHead>
-                <TableHead className="text-right">Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {accounts
-                .sort((a, b) => a.id - b.id)
-                .map((a) => (
-                  <TableRow>
-                    <TableCell className="font-medium">{a.username}</TableCell>
-                    <TableCell>{a.number_of_reports}</TableCell>
-                    <TableCell className="text-right">
-                      {!a.suspended ? (
-                        <Button className="w-[100px]" onClick={() => changeStatus(a.id, true)}>
-                          Active
-                        </Button>
-                      ) : (
-                        <Button
-                          variant={"destructive"}
-                          className="w-[100px]"
-                          onClick={() => changeStatus(a.id, false)}
-                        >
-                          Suspended
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
+    <div className="w-full max-w-6xl  rounded-lg shadow-md p-6 flex flex-col gap-4">
+      <h2 className="text-lg font-semibold">Create a Modo Account</h2>
+      {message && <p className="text-red-500">{message}</p>}
+      <form onSubmit={register} className="flex flex-col md:flex-row gap-4">
+        <Input name="username" placeholder="Username" required className="flex-1" />
+        <Input name="password" type="password" placeholder="Password" required className="flex-1" />
+        <Button type="submit">Submit</Button>
+      </form>
+    </div>
   );
 }
