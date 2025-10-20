@@ -1,3 +1,4 @@
+import { Product } from "@/types/tables/product";
 import {
   Sidebar,
   SidebarContent,
@@ -8,92 +9,68 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
+import { ApiService } from "@/services/api_service";
+import { errorToastProps } from "@/config/display/toasterProps";
+import { toast } from "sonner";
+import { Category } from "@/types/tables/category";
+import { useEffect, useState } from "react";
 
-const items = [
-  {
-    title: "Featured Items",
-    url: "#",
-  },
-  {
-    title: "Popular Items",
-    url: "#",
-  },
-  {
-    title: "New Items",
-    url: "#",
-  },
-];
+export function AppSidebar({
+  setProductList,
+}: {
+  setProductList: React.Dispatch<React.SetStateAction<Product[] | null>>;
+}) {
+  const [categories, setCategories] = useState<Category[] | null>([]);
 
-const categories = [
-  {
-    title: "Costumes",
-    url: "#",
-  },
-  {
-    title: "Discretion",
-    url: "#",
-  },
-  {
-    title: "Hacking",
-    url: "#",
-  },
-  {
-    title: "Production",
-    url: "#",
-  },
-  {
-    title: "Chemistry",
-    url: "#",
-  },
-  {
-    title: "Storage",
-    url: "#",
-  },
-];
+  const fetchCategories = async () => {
+    const response = await ApiService.get<Category[] | null>(
+      new Headers(),
+      "/category"
+    );
+    if (response === null) {
+      return toast("No category found!", errorToastProps);
+    } else if ("message" in response) {
+      return toast(response.message, errorToastProps);
+    } else {
+      return setCategories(response);
+    }
+  };
 
-// Menu items.
-// const items = [
-//   {
-//     title: "Home",
-//     url: "#",
-//     icon: Home,
-//   },
-//   {
-//     title: "Inbox",
-//     url: "#",
-//     icon: Inbox,
-//   },
-//   {
-//     title: "Calendar",
-//     url: "#",
-//     icon: Calendar,
-//   },
-//   {
-//     title: "Search",
-//     url: "#",
-//     icon: Search,
-//   },
-//   {
-//     title: "Settings",
-//     url: "#",
-//     icon: Settings,
-//   },
-// ];
+  async function filterItems(category: string) {
+    {
+      const products = await ApiService.get<Product[]>(
+        new Headers(),
+        `/market/category/${category}`
+      );
 
-export function AppSidebar() {
+      if ("message" in products) {
+        return toast(products.message, errorToastProps);
+      } else {
+        return setProductList(products);
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
+            <SidebarGroupLabel className="text-xl mt-3">
+              Categories
+            </SidebarGroupLabel>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <span>{item.title}</span>
-                    </a>
+              {categories?.map((category) => (
+                <SidebarMenuItem key={category.id}>
+                  <SidebarMenuButton
+                    asChild
+                    onClick={() => filterItems(category.category_name)}
+                  >
+                    <span>{category.category_name}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
